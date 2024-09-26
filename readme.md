@@ -1,10 +1,9 @@
 # DSN Parser
 
 ![](https://img.shields.io/badge/8.2|8.3-blue.svg)
-![PHP Package](https://github.com/efureev/php-dsn/workflows/PHP%20Package/badge.svg?branch=master)
-[![Build Status](https://travis-ci.org/efureev/php-dsn.svg?branch=master)](https://travis-ci.org/efureev/php-dsn)
-[![Latest Stable Version](https://poser.pugx.org/efureev/php-dsn/v/stable?format=flat)](https://packagist.org/packages/efureev/php-dsn)
-[![Total Downloads](https://poser.pugx.org/efureev/php-dsn/downloads)](https://packagist.org/packages/efureev/php-dsn)
+[![PHP Package](https://github.com/efureev/php-dsn/actions/workflows/php.yml/badge.svg)](https://github.com/efureev/php-dsn/actions/workflows/php.yml)
+[![Latest Stable Version](https://poser.pugx.org/efureev/dsn/v/stable?format=flat)](https://packagist.org/packages/efureev/dsn)
+[![Total Downloads](https://poser.pugx.org/efureev/dsn/downloads)](https://packagist.org/packages/efureev/dsn)
 
 ## Description
 
@@ -39,12 +38,11 @@ Template: `<scheme>:host=<host>;port=<port>;dbname=<database>`
 For php >= 8.2
 
 ```bash
-composer require efureev/php-dsn "^1.0"
+composer require efureev/dsn "^1.0"
 ```
 
 ## Test
 
 ```bash
 composer test
-composer test-cover # with coverage
 ```
