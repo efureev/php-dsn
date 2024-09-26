@@ -1,0 +1,90 @@
+name: PHP Package
+
+on: [ push ]
+
+jobs:
+  #  phpcs:
+  #    name: PHPCS
+  #    runs-on: ubuntu-latest
+  #    steps:
+  #      - uses: actions/checkout@v2
+  #      - name: PHPCS check
+  #        uses: chekalsky/phpcs-action@v1
+  #        with:
+  #          enable_warnings: true
+
+  lint-changelog:
+    name: Lint changelog file
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+      - name: Lint changelog file
+        uses: avto-dev/markdown-lint@v1
+        with:
+          rules: './.github/workflows/lint/rules/changelog.js'
+          config: '/lint/config/changelog.yml'
+          args: './CHANGELOG.md'
+
+  testing:
+    name: Test on PHP ${{ matrix.php }} with ${{ matrix.setup }} dependencies
+
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    needs: [ lint-changelog ]
+
+    strategy:
+      fail-fast: false
+      matrix:
+        setup: [ 'basic', 'lowest', 'stable' ]
+        php: [ '8.2', '8.3' ]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use PHP ${{ matrix.php }}
+        uses: shivammathur/setup-php@v2 # Action page: <https://github.com/shivammathur/setup-php>
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: mbstring
+          coverage: xdebug
+
+      - name: Get Composer Cache Directory # Docs: <https://github.com/actions/cache/blob/master/examples.md#php---composer>
+        id: composer-cache
+        run: |
+          echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
+      - name: Validate composer.json
+        run: composer validate
+
+      - name: Install [LOWEST] Composer dependencies
+        if: matrix.setup == 'lowest'
+        run: composer update --prefer-dist --no-interaction --no-suggest --prefer-lowest
+
+      - name: Install [BASIC] Composer dependencies
+        if: matrix.setup == 'basic'
+        run: composer update --prefer-dist --no-interaction --no-suggest
+
+      - name: Install [STABLE] Composer dependencies
+        if: matrix.setup == 'stable'
+        run: composer update --prefer-dist --no-interaction --no-suggest --prefer-stable
+
+      - name: Composer DUMP
+        run: composer dump-autoload -o
+
+      - name: Show most important packages' versions
+        run: composer info | grep -e phpunit/phpunit
+
+      # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
+      # Docs: https://getcomposer.org/doc/articles/scripts.md
+
+      - name: Run test suite
+        run: XDEBUG_MODE=coverage composer test
