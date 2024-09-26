@@ -1,9 +1,12 @@
 # DSN Parser
 
-![](https://img.shields.io/badge/8.2|8.3-blue.svg)
 [![PHP Package](https://github.com/efureev/php-dsn/actions/workflows/php.yml/badge.svg)](https://github.com/efureev/php-dsn/actions/workflows/php.yml)
-[![Latest Stable Version](https://poser.pugx.org/efureev/dsn/v/stable?format=flat)](https://packagist.org/packages/efureev/dsn)
-[![Total Downloads](https://poser.pugx.org/efureev/dsn/downloads)](https://packagist.org/packages/efureev/dsn)
+[![Latest Stable Version](http://poser.pugx.org/efureev/dsn/v)](https://packagist.org/packages/efureev/dsn)
+[![Total Downloads](http://poser.pugx.org/efureev/dsn/downloads)](https://packagist.org/packages/efureev/dsn)
+[![Latest Unstable Version](http://poser.pugx.org/efureev/dsn/v/unstable)](https://packagist.org/packages/efureev/dsn)
+[![License](http://poser.pugx.org/efureev/dsn/license)](https://packagist.org/packages/efureev/dsn)
+[![PHP Version Require](http://poser.pugx.org/efureev/dsn/require/php)](https://packagist.org/packages/efureev/dsn)
+[![Dependents](http://poser.pugx.org/efureev/dsn/dependents)](https://packagist.org/packages/efureev/dsn)
 
 ## Description
 
